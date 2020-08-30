@@ -17,7 +17,7 @@ const body = {
   'hub.mode': 'subscribe',
   'hub.topic': `https://api.twitch.tv/helix/users/follows?first=1&from_id=${user_id}`,
   'hub.lease_seconds': '360',
-  'hub.secret': 'uked02Kj0BGXS4BeNJPeeyQ42LPfIam2b162K9qKiEdAXa3oYvrnUivEDSD7ecH9' 
+  'hub.secret': process.env.HUB_SECRET 
 }
 
 fetch('https://api.twitch.tv/helix/webhooks/hub', {
