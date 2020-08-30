@@ -17,7 +17,6 @@ const authURL = url.format({
   }
 });
 
-
 async function checkTokenFileExists() {
     if (!fs.existsSync('token.json')) {
         await generateAccessToken(authURL)
