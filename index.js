@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const express = require('express');
 const crypto = require('crypto');
+const { exec } = require('child_process')
 
 const app = express()
 const port = 3000
@@ -13,7 +14,7 @@ const user_id = 568825210
 
 
 const body = {
-  'hub.callback': 'http://09c071595507.ngrok.io',
+  'hub.callback': 'http://14e56b576506.ngrok.io',
   'hub.mode': 'subscribe',
   'hub.topic': `https://api.twitch.tv/helix/users/follows?first=1&from_id=${user_id}`,
   'hub.lease_seconds': '360',
@@ -49,6 +50,7 @@ app.post('/', function (req, res) {
       res.status(200).end();
       console.log("POST requested");
       console.log(req.body);
+      exec('python Christmas_Lights.py')
   }
   else {
     res.status(400).end();
