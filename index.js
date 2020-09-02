@@ -9,12 +9,14 @@ const app = express()
 const port = 3000
 
 auth.checkTokenFileExists();
-const token_info = JSON.parse(fs.readFileSync('token.json'));
+auth.generateNgrokUrl();
+const tokenInfo = JSON.parse(fs.readFileSync('token.json'));
+const ngrokInfo = JSON.parse(fs.readFileSync('ngrok.json'));
 const user_id = 568825210
 
 
 const body = {
-  'hub.callback': 'http://14e56b576506.ngrok.io',
+  'hub.callback': ngrokInfo,
   'hub.mode': 'subscribe',
   'hub.topic': `https://api.twitch.tv/helix/users/follows?first=1&from_id=${user_id}`,
   'hub.lease_seconds': '360',
@@ -25,7 +27,7 @@ fetch('https://api.twitch.tv/helix/webhooks/hub', {
   method: 'POST',
   body:   JSON.stringify(body),
   headers: {'Client-ID': process.env.CLIENT_ID,
-            'Authorization': `Bearer ${token_info.access_token}`,
+            'Authorization': `Bearer ${tokenInfo.access_token}`,
             'Content-Type': 'application/json'},
 }).then(console.log('Webhooked'))
 .catch(err => console.error(err));
