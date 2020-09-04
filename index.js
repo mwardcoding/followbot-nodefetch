@@ -8,14 +8,9 @@ const { exec } = require('child_process')
 const app = express()
 const port = 3000
 
-
-    auth.checkTokenFileExists()
-    auth.generateNgrokUrl()
-
-    setTimeout(() => {auth.getHooked()}, 1000);
-
-
-
+auth.checkTokenFileExists()
+auth.generateNgrokUrl()
+setTimeout( () => {auth.getHooked()}, 1000);
 
 app.use(express.json());
 
@@ -44,5 +39,4 @@ app.post('/', function (req, res) {
     console.log("Signature does not match hash.");
   }
 })
-
 
