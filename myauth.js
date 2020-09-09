@@ -70,7 +70,7 @@ function generateNgrokUrl() {
 }
 
 function getHooked() {
-    const user_id = 505063151
+    const user_id = 505063151 
 
     const tokenInfo = JSON.parse(fs.readFileSync('token.json'));
     const ngrokInfo = JSON.parse(fs.readFileSync('ngrok.json'));
@@ -80,7 +80,7 @@ function getHooked() {
         'hub.callback': ngrokInfo,
         'hub.mode': 'subscribe',
         'hub.topic': `https://api.twitch.tv/helix/users/follows?first=1&to_id=${user_id}`,
-        'hub.lease_seconds': '86400',
+        'hub.lease_seconds': '360',
         'hub.secret': process.env.HUB_SECRET 
     }
 
@@ -93,6 +93,14 @@ function getHooked() {
     }).then(console.log('Webhooked'))
     .catch(err => console.error(err));
 
+    fetch('https://api.twitch.tv/helix/webhooks/subscriptions', {
+    method: 'GET',
+    headers: {'Client-ID': process.env.CLIENT_ID,
+                'Authorization': `Bearer ${tokenInfo.access_token}`,
+                'Content-Type': 'application/json'},
+    }).then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => console.error(err));
 }
 
 

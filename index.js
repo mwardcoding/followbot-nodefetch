@@ -21,6 +21,7 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
   res.status(200).send(req.query['hub.challenge']);
   console.log("GET requested");
+  exec('python startupLights.py')
 })
 
 app.post('/', function (req, res) {
